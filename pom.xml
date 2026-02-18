@@ -12,7 +12,7 @@
 	<artifactId>api-veterinaria</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>api-veterinaria</name>
-	<description>API REST para el sistema de gestión veterinaria</description>
+	<description>API REST para el sistema de gestion veterinaria</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -27,7 +27,9 @@
 		<url/>
 	</scm>
 	<properties>
-		<java.version>17</java.version>
+		<java.version>21</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 	<dependencies>
 		<dependency>
