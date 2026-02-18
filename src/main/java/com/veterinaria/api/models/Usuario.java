@@ -1,21 +1,42 @@
 package com.veterinaria.api.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.veterinaria.api.models.enums.TipoRol;
-import com.veterinaria.api.models.enums.TipoSexo;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "usuario") @Data
+@Table(name = "usuario")
+@Data // Genera Getters, Setters, toString, etc.
+@NoArgsConstructor // Requerido por JPA
+@AllArgsConstructor // Útil para crear usuarios de prueba rápidamente
 public class Usuario {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_usuario;
+
+    @Id
+    @JsonProperty("id_usuario")
+    private String id_usuario;
+
+    @JsonProperty("nombres_completo")
+    @Column(name = "nombres_completo")
     private String nombres_completo;
+
+    @JsonProperty("dni")
     private String dni;
+
+    @JsonProperty("celular")
     private String celular;
+
+    @JsonProperty("correo")
     private String correo;
+
     private String contrasenia;
-    private String foto; // Aquí guardarás la URL de Firebase Storage
+
+    @JsonProperty("foto")
+    private String foto;
+
     @Enumerated(EnumType.STRING)
+    @JsonProperty("rol")
     private TipoRol rol;
 }

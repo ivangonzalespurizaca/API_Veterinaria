@@ -1,13 +1,24 @@
 package com.veterinaria.api.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "vacuna") @Data
+@Table(name = "vacuna")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Vacuna {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_vacuna;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @JsonProperty("id_vacuna")
+    private String id_vacuna;
+
+    @JsonProperty("nombre_vacuna")
+    @Column(name = "nombre_vacuna")
     private String nombre_vacuna;
 }
