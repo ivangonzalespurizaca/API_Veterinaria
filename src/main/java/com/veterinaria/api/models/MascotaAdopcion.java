@@ -25,6 +25,11 @@ public class MascotaAdopcion {
     @JsonProperty("raza")
     private Raza raza;
 
+    @ManyToOne
+    @JoinColumn(name = "id_especie")
+    @JsonProperty("especie")
+    private Especie especie;
+
     @JsonProperty("nombre_mascota")
     @Column(name = "nombre_mascota")
     private String nombre_mascota;

@@ -1,6 +1,7 @@
 package com.veterinaria.api.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.veterinaria.api.models.enums.EstadoUsuario;
 import com.veterinaria.api.models.enums.TipoRol;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -35,6 +36,10 @@ public class Usuario {
 
     @JsonProperty("foto")
     private String foto;
+
+    @Enumerated(EnumType.STRING)
+    @JsonProperty("estado")
+    private EstadoUsuario estado;
 
     @Enumerated(EnumType.STRING)
     @JsonProperty("rol")
