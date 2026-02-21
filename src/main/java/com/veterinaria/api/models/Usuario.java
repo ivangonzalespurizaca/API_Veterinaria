@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "usuario")
 @Data // Genera Getters, Setters, toString, etc.
 @NoArgsConstructor // Requerido por JPA
-@AllArgsConstructor // Útil para crear usuarios de prueba rápidamente
+@AllArgsConstructor
 public class Usuario {
 
     @Id
