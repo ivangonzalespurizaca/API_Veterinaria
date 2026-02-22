@@ -1,6 +1,7 @@
 package com.veterinaria.api.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.veterinaria.api.models.enums.EstadoUsuario;
 import com.veterinaria.api.models.enums.TipoRol;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "usuario")
 @Data // Genera Getters, Setters, toString, etc.
 @NoArgsConstructor // Requerido por JPA
-@AllArgsConstructor // Útil para crear usuarios de prueba rápidamente
+@AllArgsConstructor
 public class Usuario {
 
     @Id
@@ -36,6 +37,10 @@ public class Usuario {
 
     @JsonProperty("foto")
     private String foto;
+
+    @Enumerated(EnumType.STRING)
+    @JsonProperty("estado")
+    private EstadoUsuario estado;
 
     @Enumerated(EnumType.STRING)
     @JsonProperty("rol")
