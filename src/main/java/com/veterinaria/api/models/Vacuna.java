@@ -15,10 +15,8 @@ public class Vacuna {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @JsonProperty("id_vacuna")
-    private String id_vacuna;
+    private String idVacuna;
 
-    @JsonProperty("nombre_vacuna")
     @Column(name = "nombre_vacuna")
-    private String nombre_vacuna;
+    private String nombreVacuna;   // 👈 CAMEL CASE
 }

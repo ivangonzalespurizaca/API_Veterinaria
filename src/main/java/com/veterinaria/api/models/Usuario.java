@@ -15,8 +15,9 @@ import lombok.NoArgsConstructor;
 public class Usuario {
 
     @Id
-    @JsonProperty("id_usuario")
-    private String id_usuario;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id_usuario")
+    private String idUsuario;
 
     @JsonProperty("nombres_completo")
     @Column(name = "nombres_completo")
@@ -39,4 +40,8 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     @JsonProperty("rol")
     private TipoRol rol;
+
+    @Column(unique = true)
+    private String firebaseUid;
+
 }

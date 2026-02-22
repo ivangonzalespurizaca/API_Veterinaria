@@ -39,13 +39,8 @@ public class SolicitudAdopcion {
     @Column(name = "fecha_entrevista")
     private LocalDate fecha_entrevista;
 
-    @Enumerated(EnumType.STRING)
-    @JsonProperty("estado_solicitud")
     @Column(name = "estado_solicitud")
-    private EstadoSolicitud estado_solicitud = EstadoSolicitud.Pendiente;
+    @Enumerated(EnumType.STRING)
+    private EstadoSolicitud estadoSolicitud = EstadoSolicitud.Pendiente;
 
-    @ManyToOne
-    @JoinColumn(name = "id_usuario_gestor")
-    @JsonProperty("gestor")
-    private Usuario gestor;
 }
