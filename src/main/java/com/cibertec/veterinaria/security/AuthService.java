@@ -1,8 +1,10 @@
 package com.cibertec.veterinaria.security;
 
+import com.cibertec.veterinaria.dto.UsuarioInfoDTO;
 import com.cibertec.veterinaria.dto.UsuarioRegisterDTO;
 import com.cibertec.veterinaria.entity.Usuario;
 import com.cibertec.veterinaria.entity.enums.TipoRol;
+import com.cibertec.veterinaria.mapper.UsuarioMapper;
 import com.cibertec.veterinaria.repository.UsuarioRepository;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseToken;
@@ -19,8 +21,9 @@ public class AuthService {
 
     private static final String DEFAULT_USER_IMAGE = "https://res.cloudinary.com/dfid8iuf3/image/upload/v1775790000/1077114_vegvlp.png";
     private final UsuarioRepository usuarioRepository;
+    private final UsuarioMapper usuarioMapper;
 
-    public Usuario syncUserWithFirebase(String idToken) throws Exception {
+    public UsuarioInfoDTO syncUserWithFirebase(String idToken) throws Exception {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
         String uid = decodedToken.getUid();
         String email = decodedToken.getEmail();
@@ -29,7 +32,7 @@ public class AuthService {
         Optional<Usuario> usuarioExistente = usuarioRepository.findById(uid);
 
         if (usuarioExistente.isPresent()) {
-            return usuarioExistente.get();
+            return usuarioMapper.toUsuarioInfoDTO(usuarioExistente.get());
         }
 
         Usuario nuevoUsuario = Usuario.builder()
@@ -43,10 +46,12 @@ public class AuthService {
                 .dni("00000000")
                 .build();
 
-        return usuarioRepository.save(nuevoUsuario);
+        Usuario usuarioGuardado = usuarioRepository.save(nuevoUsuario);
+
+        return usuarioMapper.toUsuarioInfoDTO(usuarioGuardado);
     }
 
-    public Usuario registrarNuevoUsuario(String idToken, UsuarioRegisterDTO extraData) throws Exception {
+    public UsuarioInfoDTO registrarNuevoUsuario(String idToken, UsuarioRegisterDTO extraData) throws Exception {
         // 1. Validamos con Google para obtener el UID y Email
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
         String uid = decodedToken.getUid();
@@ -76,7 +81,9 @@ public class AuthService {
         //asignarRolAFirebase(uid, rolAsignado.name());
 
         // 6. Al usar save() sobre un objeto que ya tiene ID, JPA hará un UPDATE
-        return usuarioRepository.save(usuario);
+        Usuario usuarioGuardado = usuarioRepository.save(usuario);
+
+        return usuarioMapper.toUsuarioInfoDTO(usuarioGuardado);
     }
 
     public void asignarRolAFirebase(String uid, String rol) throws Exception {

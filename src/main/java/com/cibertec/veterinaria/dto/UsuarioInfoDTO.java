@@ -1,5 +1,6 @@
 package com.cibertec.veterinaria.dto;
 
+import com.cibertec.veterinaria.entity.enums.TipoGenero;
 import com.cibertec.veterinaria.entity.enums.TipoRol;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +18,8 @@ public class UsuarioInfoDTO {
     private String dni;
     private String email;
     private TipoRol rol;
+    private TipoGenero genero;
+    private String celular;
     private Boolean activo;
     private String fotoUrl;
 }
