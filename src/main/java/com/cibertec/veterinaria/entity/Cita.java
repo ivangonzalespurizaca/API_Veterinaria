@@ -49,7 +49,4 @@ public class Cita {
     @CreationTimestamp
     @Column(name = "fecha_creacion", updatable = false)
     private LocalDateTime fechaCreacion;
-
-    @OneToMany(mappedBy = "cita", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<VacunaAplicada> vacunas;
 }

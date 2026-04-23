@@ -30,8 +30,8 @@ public class VacunaAplicada {
     private Vacuna vacuna;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_cita")
-    private Cita cita;
+    @JoinColumn(name = "id_consulta")
+    private Consulta consulta;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "estado", nullable = false)
@@ -40,8 +40,8 @@ public class VacunaAplicada {
     @Column(name = "fecha_aplicacion")
     private LocalDate fechaAplicacion;
 
-    @Column(name = "proxima_dosis")
-    private LocalDate proximaDosis;
+    @Column(name = "fecha_programada")
+    private LocalDate fechaProgramada;
 
     @Builder.Default
     @Column(name = "nro_dosis")

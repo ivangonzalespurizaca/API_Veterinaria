@@ -32,18 +32,20 @@ public class HorarioServiceImpl implements HorarioService {
             throw new RuntimeException("La hora de inicio no puede ser después de la hora de fin");
         }
 
-        // 2. Buscar si ya existe el registro (activo o inactivo)
-        Optional<HorarioAtencion> horarioOpt = horarioRepository.findByVeterinarioUsuarioIdUsuarioAndDiaSemana(dto.getIdUsuarioVeterinario(), dto.getDiaSemana());
+        // 2. Buscar si ya existe el registro usando el ID numérico
+        Optional<HorarioAtencion> horarioOpt = horarioRepository.findByVeterinarioIdVeterinarioAndDiaSemana(
+                dto.getIdVeterinario(),
+                dto.getDiaSemana()
+        );
 
         if (horarioOpt.isPresent()) {
             HorarioAtencion horarioExistente = horarioOpt.get();
 
-            // Si ya está activo, lanzamos error
             if (horarioExistente.getActivo()) {
                 throw new RuntimeException("El veterinario ya tiene un horario ACTIVO para el " + dto.getDiaSemana());
             }
 
-            // Si estaba inactivo, lo actualizamos y reactivamos
+            // Reactivación
             horarioExistente.setHoraInicio(dto.getHoraInicio());
             horarioExistente.setHoraFin(dto.getHoraFin());
             horarioExistente.setActivo(true);
@@ -51,9 +53,10 @@ public class HorarioServiceImpl implements HorarioService {
             return horarioMapper.toInfoDTO(horarioRepository.save(horarioExistente));
         }
 
-        // 3. SI NO EXISTE: Procedemos con la creación normal
-        Veterinario veterinario = veterinarioRepository.findByUsuarioIdUsuario(dto.getIdUsuarioVeterinario())
-                .orElseThrow(() -> new RuntimeException("Veterinario no encontrado"));
+        // 3. SI NO EXISTE: Buscar veterinario por ID numérico (findById)
+        // Esto es mucho más rápido que buscar por el String de Firebase
+        Veterinario veterinario = veterinarioRepository.findById(dto.getIdVeterinario())
+                .orElseThrow(() -> new RuntimeException("Veterinario con ID " + dto.getIdVeterinario() + " no encontrado"));
 
         HorarioAtencion nuevoHorario = horarioMapper.toEntity(dto);
         nuevoHorario.setVeterinario(veterinario);
@@ -63,16 +66,16 @@ public class HorarioServiceImpl implements HorarioService {
     }
 
     @Override
-    public List<HorarioInfoDTO> listarDisponiblesPorVeterinario(String idUsuario) {
-        return horarioRepository.findByVeterinarioUsuarioIdUsuarioAndActivoTrue(idUsuario)
+    public List<HorarioInfoDTO> listarDisponiblesPorVeterinario(Long id) {
+        return horarioRepository.findByVeterinarioIdVeterinarioAndActivoTrue(id)
                 .stream()
                 .map(horarioMapper::toInfoDTO)
                 .toList();
     }
 
     @Override
-    public List<HorarioInfoDTO> listarTodoPorVeterinario(String idUsuario) {
-        return horarioRepository.findByVeterinarioUsuarioIdUsuario(idUsuario)
+    public List<HorarioInfoDTO> listarTodoPorVeterinario(Long id) {
+        return horarioRepository.findByVeterinarioIdVeterinario(id)
                 .stream()
                 .map(horarioMapper::toInfoDTO)
                 .toList();

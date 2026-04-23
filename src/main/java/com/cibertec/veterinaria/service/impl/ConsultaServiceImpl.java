@@ -11,6 +11,7 @@ import com.cibertec.veterinaria.mapper.VacunaAplicadaMapper;
 import com.cibertec.veterinaria.repository.*;
 import com.cibertec.veterinaria.service.ConsultaService;
 import com.cibertec.veterinaria.service.LogSistemaService;
+import com.cibertec.veterinaria.service.VacunaAplicadaService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,7 @@ public class ConsultaServiceImpl implements ConsultaService {
     private final TratamientoMapper tratamientoMapper;
     private final VacunaAplicadaMapper vacunaAplicadaMapper;
     private final LogSistemaService logService;
+    private final VacunaAplicadaService vacunaAplicadaService;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -49,10 +51,12 @@ public class ConsultaServiceImpl implements ConsultaService {
             throw new RuntimeException("Ya existe una consulta registrada para esta cita");
         }
 
+        // 1. Guardar la Consulta primero (Necesitamos su ID para las vacunas)
         Consulta consulta = consultaMapper.toEntity(dto);
         consulta.setCita(cita);
         Consulta consultaGuardada = consultaRepository.save(consulta);
 
+        // 2. Guardar Tratamientos
         if (dto.getTratamientos() != null && !dto.getTratamientos().isEmpty()) {
             dto.getTratamientos().forEach(tDto -> {
                 TratamientoMedicamento tm = tratamientoMapper.toEntity(tDto);
@@ -63,50 +67,27 @@ public class ConsultaServiceImpl implements ConsultaService {
 
         if (dto.getVacunas() != null && !dto.getVacunas().isEmpty()) {
             dto.getVacunas().forEach(vDto -> {
-                Vacuna vCatalogo = vacunaCatalogoRepository.findById(vDto.getIdVacuna())
-                        .orElseThrow(() -> new RuntimeException("Vacuna no encontrada en el catálogo"));
-
-                VacunaAplicada aplicada = VacunaAplicada.builder()
-                        .mascota(cita.getMascota())
-                        .vacuna(vCatalogo)
-                        .cita(cita)
-                        .estado(TipoEstadoVacuna.APLICADA)
-                        .fechaAplicacion(java.time.LocalDate.now())
-                        .proximaDosis(vDto.getProximaDosis())
-                        .nroDosis(vDto.getNroDosis())
-                        .observaciones(vDto.getObservaciones())
-                        .build();
-                vacunaAplicadaRepository.save(aplicada);
-
-                if (vDto.isGenerarRecordatorio() && vDto.getProximaDosis() != null) {
-                    VacunaAplicada recordatorio = VacunaAplicada.builder()
-                            .mascota(cita.getMascota())
-                            .vacuna(vCatalogo)
-                            .cita(cita)
-                            .estado(TipoEstadoVacuna.PROGRAMADA)
-                            .proximaDosis(vDto.getProximaDosis())
-                            .nroDosis(vDto.getNroDosis() + 1)
-                            .observaciones("Refuerzo automático programado")
-                            .build();
-                    vacunaAplicadaRepository.save(recordatorio);
-                }
+                vacunaAplicadaService.aplicarVacunaInmediata(
+                        cita.getMascota().getIdMascota(),
+                        vDto,
+                        consultaGuardada.getIdConsulta()
+                );
             });
         }
+
+        // 4. Finalizar Cita
         cita.setEstado(TipoEstadoCita.COMPLETADA);
         citaRepository.save(cita);
 
-        String idVeterinario = cita.getVeterinario().getUsuario().getIdUsuario();
-        String nombreMascota = cita.getMascota().getNombreMascota();
-
+        // 5. Log y Limpieza
         logService.registrarLog(
-                idVeterinario,
+                cita.getVeterinario().getUsuario().getIdUsuario(),
                 "CONSULTA",
                 "REGISTRO",
-                "Atención médica finalizada. Mascota: " + nombreMascota + ". Diagnóstico: " + consultaGuardada.getDiagnostico()
+                "Atención médica #" + consultaGuardada.getIdConsulta() + " finalizada para: " + cita.getMascota().getNombreMascota()
         );
 
         entityManager.flush();
-
         entityManager.clear();
 
         return obtenerPorId(consultaGuardada.getIdConsulta());

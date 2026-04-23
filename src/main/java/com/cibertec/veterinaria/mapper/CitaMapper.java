@@ -20,7 +20,7 @@ public interface CitaMapper {
     CitaInfoDTO toInfoDTO(Cita cita);
 
     @Mapping(source = "idMascota", target = "mascota.idMascota")
-    @Mapping(source = "idUsuarioVeterinario", target = "veterinario.usuario.idUsuario")
+    @Mapping(source = "idVeterinario", target = "veterinario.idVeterinario")
     Cita toEntity(CitaRegisterDTO registerDTO);
 
     @Mapping(source = "nuevoEstado", target = "estado")

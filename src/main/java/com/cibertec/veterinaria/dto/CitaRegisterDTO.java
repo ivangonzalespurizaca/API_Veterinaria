@@ -18,8 +18,8 @@ public class CitaRegisterDTO {
     @Positive(message = "El ID de la mascota debe ser un número positivo")
     private Long idMascota;
 
-    @NotBlank(message = "El ID del veterinario no puede estar vacío")
-    private String idUsuarioVeterinario;
+    @NotNull(message = "El ID del veterinario es obligatorio")
+    private Long idVeterinario;
 
     @NotNull(message = "La fecha es obligatoria")
     @FutureOrPresent(message = "La fecha no puede ser en el pasado")

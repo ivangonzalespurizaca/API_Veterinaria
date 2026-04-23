@@ -9,13 +9,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface HorarioAtencionRepository extends JpaRepository<HorarioAtencion, Long> {
-    // Para ver el horario completo de un veterinario (Admin y el propio Vet)
-    List<HorarioAtencion> findByVeterinarioUsuarioIdUsuario(String idUsuario);
 
-    List<HorarioAtencion> findByVeterinarioUsuarioIdUsuarioAndActivoTrue(String idUsuario);
-
-    Optional<HorarioAtencion> findByVeterinarioUsuarioIdUsuarioAndDiaSemana(String idUsuario, TipoDiaSemana dia);
+    Optional<HorarioAtencion> findByVeterinarioIdVeterinarioAndDiaSemana(Long idVeterinario, TipoDiaSemana dia);
 
     Optional<HorarioAtencion> findByVeterinarioIdVeterinarioAndDiaSemanaAndActivoTrue(Long idVeterinario, TipoDiaSemana dia);
+    Optional<HorarioAtencion> findByVeterinarioUsuarioIdUsuarioAndDiaSemanaAndActivoTrue(String idUsuario, TipoDiaSemana diaBusqueda);
 
+    List<HorarioAtencion> findByVeterinarioIdVeterinario(Long idVeterinario);
+    List<HorarioAtencion> findByVeterinarioIdVeterinarioAndActivoTrue(Long idVeterinario);
 }

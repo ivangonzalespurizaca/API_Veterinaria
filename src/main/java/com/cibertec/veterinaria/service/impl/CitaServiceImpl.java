@@ -87,7 +87,7 @@ public class CitaServiceImpl implements CitaService {
         Mascota mascota = mascotaRepository.findById(dto.getIdMascota())
                 .orElseThrow(() -> new RuntimeException("Mascota no encontrada"));
 
-        Veterinario veterinario = veterinarioRepository.findByUsuarioIdUsuario(dto.getIdUsuarioVeterinario())
+        Veterinario veterinario = veterinarioRepository.findById(dto.getIdVeterinario())
                 .orElseThrow(() -> new RuntimeException("Veterinario no encontrado"));
 
         LocalDateTime momentoCita = LocalDateTime.of(dto.getFecha(), dto.getHora());
@@ -125,7 +125,7 @@ public class CitaServiceImpl implements CitaService {
         Cita citaGuardada = citaRepository.save(cita);
 
         logService.registrarLog(
-                dto.getIdUsuarioVeterinario(),
+                mascota.getCliente().getIdUsuario(),
                 "CITA",
                 "REGISTRO",
                 "Nueva cita programada para la mascota " + mascota.getNombreMascota() + " el día " + dto.getFecha()
@@ -302,7 +302,7 @@ public class CitaServiceImpl implements CitaService {
     }
 
     @Override
-    public List<AgendaVetDTO> obtenerAgendaDelDia(Long idVeterinario, LocalDate fecha) {
+    public List<AgendaVetDTO> obtenerAgendaDelDia(String idVeterinario, LocalDate fecha) {
         String nombreDia = Normalizer.normalize(
                 fecha.getDayOfWeek().getDisplayName(TextStyle.FULL, new Locale("es", "ES")).toUpperCase(),
                 Normalizer.Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}", "");
@@ -311,11 +311,11 @@ public class CitaServiceImpl implements CitaService {
 
         // 2. Horario de atención
         HorarioAtencion horario = horarioRepository
-                .findByVeterinarioIdVeterinarioAndDiaSemanaAndActivoTrue(idVeterinario, diaBusqueda)
+                .findByVeterinarioUsuarioIdUsuarioAndDiaSemanaAndActivoTrue(idVeterinario, diaBusqueda)
                 .orElseThrow(() -> new RuntimeException("El veterinario no atiende los días " + nombreDia));
 
         // 3. Citas del día
-        List<Cita> citasDelDia = citaRepository.findByVeterinarioIdVeterinarioAndFechaAndEstadoNot(
+        List<Cita> citasDelDia = citaRepository.findByVeterinarioUsuarioIdUsuarioAndFechaAndEstadoNot(
                 idVeterinario, fecha, TipoEstadoCita.CANCELADA);
 
         // 4. Construir la agenda

@@ -17,7 +17,7 @@ public interface CitaService {
     List<CitaInfoDTO> listarPorVeterinario(String idUsuarioVet); // Vet
     List<CitaInfoDTO> listarPorCliente(String idUsuarioCliente); // Cliente (App iOS)
     CitaInfoDTO obtenerPorId(Long id);
-    List<AgendaVetDTO> obtenerAgendaDelDia(Long idVeterinario, LocalDate fecha);
+    List<AgendaVetDTO> obtenerAgendaDelDia(String idUsuario, LocalDate fecha);
     // Filtros
     List<CitaInfoDTO> buscarTodoPorCriterio(String criterio);
     List<CitaInfoDTO> buscarCitasPropiasPorCriterio(String idUsuarioVet, String criterio);

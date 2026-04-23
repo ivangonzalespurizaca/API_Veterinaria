@@ -143,7 +143,7 @@ public class CitaController {
     @GetMapping("/veterinario/{idVeterinario}/agenda")
     @PreAuthorize("hasRole('VETERINARIO')")
     public ResponseEntity<List<AgendaVetDTO>> obtenerAgenda(
-            @PathVariable Long idVeterinario,
+            @PathVariable String idVeterinario,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha) {
 
         return ResponseEntity.ok(citaService.obtenerAgendaDelDia(idVeterinario, fecha));

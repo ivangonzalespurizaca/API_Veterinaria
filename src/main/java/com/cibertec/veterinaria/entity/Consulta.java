@@ -39,4 +39,7 @@ public class Consulta {
 
     @OneToMany(mappedBy = "consulta", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<TratamientoMedicamento> tratamientos;
+
+    @OneToMany(mappedBy = "consulta", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<VacunaAplicada> vacunasAplicadas;
 }

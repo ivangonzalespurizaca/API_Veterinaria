@@ -14,7 +14,7 @@ public interface ConsultaMapper {
     @Mapping(source = "cita.fecha", target = "fechaConsulta")
     @Mapping(target = "nombreVeterinario", expression = "java(consulta.getCita().getVeterinario().getUsuario().getNombres() + \" \" + consulta.getCita().getVeterinario().getUsuario().getApellidos())")
     @Mapping(source = "tratamientos", target = "tratamientos")
-    @Mapping(source = "cita.vacunas", target = "vacunas") // Aquí le decimos que las busque en la Cita
+    @Mapping(source = "vacunasAplicadas", target = "vacunas") // Aquí le decimos que las busque en la Cita
     ConsultaInfoDTO toInfoDTO(Consulta consulta);
 
     @Mapping(source = "idCita", target = "cita.idCita")

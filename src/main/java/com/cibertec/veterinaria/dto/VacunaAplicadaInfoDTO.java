@@ -21,7 +21,7 @@ public class VacunaAplicadaInfoDTO {
 
     // Datos de la dosis
     private LocalDate fechaAplicacion;
-    private LocalDate proximaDosis;
+    private LocalDate fechaProgramada;
     private Integer nroDosis;
 
     // Estado y Responsable

@@ -16,8 +16,8 @@ import java.time.LocalTime;
 @AllArgsConstructor
 public class HorarioRegisterDTO {
 
-    @NotBlank(message = "El ID del veterinario es obligatorio")
-    private String idUsuarioVeterinario;
+    @NotNull(message = "El ID del veterinario es obligatorio")
+    private Long idVeterinario;
 
     @NotNull(message = "El día de la semana es obligatorio")
     private TipoDiaSemana diaSemana;

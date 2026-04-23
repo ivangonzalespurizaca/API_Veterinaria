@@ -28,7 +28,7 @@ public interface CitaRepository extends JpaRepository<Cita, Long> {
     // Para el Admin (Todas las citas ordenadas por lo más reciente)
     List<Cita> findAllByOrderByFechaAscHoraAsc();
 
-    List<Cita> findByVeterinarioIdVeterinarioAndFechaAndEstadoNot(Long idVeterinario, LocalDate fecha, TipoEstadoCita estado);
+    List<Cita> findByVeterinarioUsuarioIdUsuarioAndFechaAndEstadoNot(String idUsuario, LocalDate fecha, TipoEstadoCita estado);
 
     // Búsqueda para el Administrador (Busca en toda la base de datos)
     @Query("SELECT c FROM Cita c WHERE " +

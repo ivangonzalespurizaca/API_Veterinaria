@@ -6,6 +6,7 @@ import com.google.firebase.FirebaseOptions;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource; // IMPORTANTE
 
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
@@ -19,7 +20,7 @@ public class FirebaseConfig {
     @Value("${FIREBASE_JSON_CONTENT:}")
     private String firebaseJsonContent;
 
-    @Value("${firebase.config.path:src/main/resources/firebase-service-account.json}")
+    @Value("${firebase.config.path}")
     private String configPath;
 
     @Bean
@@ -27,15 +28,22 @@ public class FirebaseConfig {
         if (FirebaseApp.getApps().isEmpty()) {
             InputStream serviceAccount;
 
-            // Prioridad 1: Usar el contenido de la variable de entorno (Railway)
+            // Prioridad 1: Contenido JSON (Railway)
             if (firebaseJsonContent != null && !firebaseJsonContent.trim().isEmpty()) {
                 serviceAccount = new ByteArrayInputStream(
                         firebaseJsonContent.getBytes(StandardCharsets.UTF_8)
                 );
             }
-            // Prioridad 2: Usar el archivo físico (Local)
+            // Prioridad 2: Archivo físico o Classpath (Local)
             else {
-                serviceAccount = new FileInputStream(configPath);
+                // Si la ruta configurada usa "classpath:", usamos ClassPathResource de Spring
+                if (configPath.startsWith("classpath:")) {
+                    String cleanPath = configPath.replace("classpath:", "");
+                    serviceAccount = new ClassPathResource(cleanPath).getInputStream();
+                } else {
+                    // Si es una ruta absoluta (como en algunos servidores), usamos el método viejo
+                    serviceAccount = new FileInputStream(configPath);
+                }
             }
 
             FirebaseOptions options = FirebaseOptions.builder()

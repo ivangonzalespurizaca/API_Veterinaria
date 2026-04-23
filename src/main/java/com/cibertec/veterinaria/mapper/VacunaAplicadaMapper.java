@@ -2,6 +2,7 @@ package com.cibertec.veterinaria.mapper;
 
 import com.cibertec.veterinaria.dto.VacunaAplicadaDTO;
 import com.cibertec.veterinaria.dto.VacunaAplicadaInfoDTO;
+import com.cibertec.veterinaria.dto.VacunaAplicadaProgramadaDTO;
 import com.cibertec.veterinaria.entity.VacunaAplicada;
 import com.cibertec.veterinaria.entity.enums.TipoEstadoVacuna;
 import org.mapstruct.Mapper;
@@ -17,21 +18,30 @@ public interface VacunaAplicadaMapper {
 
     @Mapping(target = "idAplicacion", ignore = true)
     @Mapping(target = "mascota", ignore = true)
-    @Mapping(target = "cita", ignore = true)
+    @Mapping(target = "consulta", ignore = true)
     @Mapping(target = "estado", ignore = true)
     @Mapping(target = "fechaAplicacion", ignore = true)
+    @Mapping(target = "fechaProgramada", ignore = true)
     VacunaAplicada toEntity(VacunaAplicadaDTO dto);
 
+    @Mapping(target = "idAplicacion", ignore = true)
+    @Mapping(target = "mascota", ignore = true)
+    @Mapping(target = "consulta", ignore = true)
+    @Mapping(target = "estado", ignore = true)
+    @Mapping(target = "fechaAplicacion", ignore = true)
+    VacunaAplicada toEntity(VacunaAplicadaProgramadaDTO dto);
+
     default String obtenerNombreCompletoVeterinario(VacunaAplicada entity) {
-        if (entity.getCita() == null || entity.getCita().getVeterinario() == null) {
-            // Si no tiene cita, es una vacuna huérfana (no debería pasar con el fix de arriba)
+
+        if (entity.getConsulta() == null ||
+                entity.getConsulta().getCita() == null ||
+                entity.getConsulta().getCita().getVeterinario() == null) {
             return "Sin asignar";
         }
 
-        var usuario = entity.getCita().getVeterinario().getUsuario();
+        var usuario = entity.getConsulta().getCita().getVeterinario().getUsuario();
         String nombreFull = usuario.getNombres() + " " + usuario.getApellidos();
 
-        // Opcional: Indicar si es quien la puso o quien la programó
         if (entity.getEstado() == TipoEstadoVacuna.PROGRAMADA) {
             return "Programado por: " + nombreFull;
         }

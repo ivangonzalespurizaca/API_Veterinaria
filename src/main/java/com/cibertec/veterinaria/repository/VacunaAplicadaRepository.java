@@ -7,9 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface VacunaAplicadaRepository extends JpaRepository<VacunaAplicada, Long> {
-    List<VacunaAplicada> findByMascotaIdMascotaOrderByProximaDosisAsc(Long idMascota);
+    List<VacunaAplicada> findByMascotaIdMascotaOrderByFechaProgramadaAsc(Long idMascota);
 
-    List<VacunaAplicada> findByCitaIdCita(Long idCita);
+    List<VacunaAplicada> findByConsultaIdConsulta(Long idConsulta);
 
-    List<VacunaAplicada> findByEstadoAndProximaDosis(TipoEstadoVacuna estado, java.time.LocalDate fecha);
+    List<VacunaAplicada> findByEstadoAndFechaProgramada(TipoEstadoVacuna estado, java.time.LocalDate fecha);
 }

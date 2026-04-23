@@ -27,16 +27,16 @@ public class HorarioController {
         return ResponseEntity.status(HttpStatus.CREATED).body(horarioService.registrarHorario(dto));
     }
 
-    @GetMapping("/disponibles/{idUsuario}")
+    @GetMapping("/disponibles/{id}")
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'VETERINARIO', 'CLIENTE')")
-    public ResponseEntity<List<HorarioInfoDTO>> obtenerDisponibles(@PathVariable String idUsuario) {
-        return ResponseEntity.ok(horarioService.listarDisponiblesPorVeterinario(idUsuario));
+    public ResponseEntity<List<HorarioInfoDTO>> obtenerDisponibles(@PathVariable Long id) {
+        return ResponseEntity.ok(horarioService.listarDisponiblesPorVeterinario(id));
     }
 
-    @GetMapping("/admin/historial/{idUsuario}")
+    @GetMapping("/admin/historial/{id}")
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'VETERINARIO')")
-    public ResponseEntity<List<HorarioInfoDTO>> obtenerTodo(@PathVariable String idUsuario) {
-        return ResponseEntity.ok(horarioService.listarTodoPorVeterinario(idUsuario));
+    public ResponseEntity<List<HorarioInfoDTO>> obtenerTodo(@PathVariable Long id) {
+        return ResponseEntity.ok(horarioService.listarTodoPorVeterinario(id));
     }
 
     @PutMapping("/admin/{id}")

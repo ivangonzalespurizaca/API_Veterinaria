@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class VacunaAplicadaDTO {
+public class VacunaAplicadaProgramadaDTO {
     @NotNull(message = "El ID de la vacuna es obligatorio")
     private Long idVacuna;
 
@@ -21,7 +21,7 @@ public class VacunaAplicadaDTO {
     @Max(value = 10, message = "El número de dosis no parece válido")
     private Integer nroDosis;
 
-    @Future(message = "La fecha de programación debe ser una fecha futura")
+    @Future(message = "La fecha de la próxima dosis debe ser una fecha futura")
     private LocalDate fechaProgramada;
 
     @Size(max = 255, message = "Las observaciones no deben exceder los 255 caracteres")

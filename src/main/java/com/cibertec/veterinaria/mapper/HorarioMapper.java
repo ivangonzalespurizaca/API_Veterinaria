@@ -15,7 +15,7 @@ public interface HorarioMapper {
     @Mapping(source = "diaSemana", target = "diaSemana")
     HorarioInfoDTO toInfoDTO(HorarioAtencion horario);
 
-    @Mapping(source = "idUsuarioVeterinario", target = "veterinario.usuario.idUsuario")
+    @Mapping(source = "idVeterinario", target = "veterinario.idVeterinario")
     HorarioAtencion toEntity(HorarioRegisterDTO registerDTO);
 
     void updateEntityFromDTO(HorarioUpdateDTO updateDTO, @MappingTarget HorarioAtencion horario);
