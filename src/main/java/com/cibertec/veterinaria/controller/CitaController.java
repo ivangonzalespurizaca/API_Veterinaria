@@ -3,6 +3,7 @@ package com.cibertec.veterinaria.controller;
 import com.cibertec.veterinaria.dto.*;
 import com.cibertec.veterinaria.entity.enums.TipoEstadoCita;
 import com.cibertec.veterinaria.service.CitaService;
+import com.cibertec.veterinaria.service.VeterinarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -21,6 +22,7 @@ import java.util.List;
 public class CitaController {
 
     private final CitaService citaService;
+    private final VeterinarioService veterinarioService;
 
     @GetMapping("/disponibilidad")
     public ResponseEntity<List<SlotDTO>> obtenerDisponibilidad(
@@ -28,6 +30,13 @@ public class CitaController {
             @RequestParam LocalDate fecha) {
 
         return ResponseEntity.ok(citaService.obtenerHorasDisponibles(idVeterinario, fecha));
+    }
+
+    @GetMapping("/veterinarios-disponibles")
+    @PreAuthorize("hasAnyRole('CLIENTE', 'ADMINISTRADOR')")
+    public ResponseEntity<List<VeterinarioInfoDTO>> listarVeterinariosParaCita() {
+        // El cliente necesita esto para elegir a quién agendar
+        return ResponseEntity.ok(veterinarioService.listarDisponibles());
     }
 
     @PostMapping("/registrar")

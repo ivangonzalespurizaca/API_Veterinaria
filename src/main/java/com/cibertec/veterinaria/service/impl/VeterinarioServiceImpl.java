@@ -118,6 +118,13 @@ public class VeterinarioServiceImpl implements VeterinarioService {
         );
     }
 
+    @Override
+    public List<VeterinarioInfoDTO> listarDisponibles() {
+        return veterinarioRepository.findByUsuarioActivoTrue().stream()
+                .map(veterinarioMapper::toVeterinarioInfoDTO)
+                .toList();
+    }
+
     private void actualizarRolEnFirebase(String uid, String rol) {
         try {
             Map<String, Object> claims = new HashMap<>();

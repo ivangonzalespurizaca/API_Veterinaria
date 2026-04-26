@@ -12,4 +12,5 @@ public interface VeterinarioService {
     VeterinarioInfoDTO registrar(VeterinarioRegisterDTO dto);
     VeterinarioInfoDTO actualizarDatosProfesionales(Long id, VeterinarioUpdateDTO dto);
     void cambiarEstado(Long id, boolean activo);
+    List<VeterinarioInfoDTO> listarDisponibles();
 }

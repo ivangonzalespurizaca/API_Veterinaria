@@ -15,4 +15,6 @@ public interface VeterinarioRepository extends JpaRepository<Veterinario, Long> 
     List<Veterinario> buscarPorNombreODni(@Param("filtro") String filtro);
 
     Optional<Veterinario> findByUsuarioIdUsuario(String idUsuario);
+
+    List<Veterinario> findByUsuarioActivoTrue();
 }
