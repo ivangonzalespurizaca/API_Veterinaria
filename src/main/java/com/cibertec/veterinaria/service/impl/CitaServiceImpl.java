@@ -197,7 +197,7 @@ public class CitaServiceImpl implements CitaService {
 
     @Override
     public List<CitaInfoDTO> listarPorCliente(String idUsuarioCliente) {
-        return citaRepository.findByMascotaClienteIdUsuarioOrderByFechaAscHoraAsc(idUsuarioCliente)
+        return citaRepository.findByMascotaClienteIdUsuarioOrderByFechaDescHoraDesc(idUsuarioCliente)
                 .stream()
                 .map(citaMapper::toInfoDTO)
                 .toList();
@@ -213,7 +213,7 @@ public class CitaServiceImpl implements CitaService {
 
     @Override
     public List<CitaInfoDTO> filtrarPorClienteYEstado(String idUsuarioCliente, TipoEstadoCita estado) {
-        return citaRepository.findByMascotaClienteIdUsuarioAndEstadoOrderByFechaAscHoraAsc(idUsuarioCliente, estado)
+        return citaRepository.findByMascotaClienteIdUsuarioAndEstadoOrderByFechaDescHoraDesc(idUsuarioCliente, estado)
                 .stream()
                 .map(citaMapper::toInfoDTO)
                 .toList();

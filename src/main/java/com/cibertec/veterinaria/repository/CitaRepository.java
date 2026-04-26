@@ -23,7 +23,7 @@ public interface CitaRepository extends JpaRepository<Cita, Long> {
     List<Cita> findByVeterinarioUsuarioIdUsuarioOrderByFechaAscHoraAsc(String idUsuario);
 
     // Para el Cliente: Navega Cita -> Mascota -> Cliente (Usuario) -> idUsuario
-    List<Cita> findByMascotaClienteIdUsuarioOrderByFechaAscHoraAsc(String idUsuario);
+    List<Cita> findByMascotaClienteIdUsuarioOrderByFechaDescHoraDesc(String idUsuario);
 
     // Para el Admin (Todas las citas ordenadas por lo más reciente)
     List<Cita> findAllByOrderByFechaAscHoraAsc();
@@ -54,7 +54,7 @@ public interface CitaRepository extends JpaRepository<Cita, Long> {
     // Filtro por Veterinario (Vet)
     List<Cita> findByVeterinarioUsuarioIdUsuarioAndEstadoOrderByFechaAscHoraAsc(String idUsuario, TipoEstadoCita estado);
 
-    List<Cita> findByMascotaClienteIdUsuarioAndEstadoOrderByFechaAscHoraAsc(String idUsuario, TipoEstadoCita estado);
+    List<Cita> findByMascotaClienteIdUsuarioAndEstadoOrderByFechaDescHoraDesc(String idUsuario, TipoEstadoCita estado);
 
     List<Cita> findByVeterinarioUsuarioIdUsuarioAndFechaAndEstadoNotOrderByHoraAsc(String idUsuario, LocalDate fecha, TipoEstadoCita estado);
 }
