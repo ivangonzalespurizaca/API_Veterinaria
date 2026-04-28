@@ -16,5 +16,7 @@ public interface VeterinarioRepository extends JpaRepository<Veterinario, Long> 
 
     Optional<Veterinario> findByUsuarioIdUsuario(String idUsuario);
 
+    boolean existsByNumColegiatura(String numColegiatura);
+
     List<Veterinario> findByUsuarioActivoTrue();
 }

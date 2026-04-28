@@ -48,6 +48,21 @@ public class VeterinarioServiceImpl implements VeterinarioService {
     @Transactional
     public VeterinarioInfoDTO registrar(VeterinarioRegisterDTO dto) {
 
+        // 1. VALIDACIÓN: ¿Ya existe el Email?
+        if (usuarioRepository.existsByEmail(dto.getEmail())) {
+            throw new RuntimeException("El correo electrónico ya está registrado en el sistema.");
+        }
+
+        // 2. VALIDACIÓN: ¿Ya existe el DNI?
+        if (usuarioRepository.existsByDni(dto.getDni())) {
+            throw new RuntimeException("El número de DNI ya pertenece a otro usuario.");
+        }
+
+        // 3. VALIDACIÓN: ¿Ya existe la Colegiatura?
+        if (veterinarioRepository.existsByNumColegiatura(dto.getNumColegiatura())) {
+            throw new RuntimeException("El número de colegiatura CMVP ya está registrado.");
+        }
+
         Usuario usuario = Usuario.builder()
                 .idUsuario(dto.getIdUsuario())
                 .nombres(dto.getNombres())
