@@ -1,6 +1,7 @@
 package com.cibertec.veterinaria.controller;
 
 import com.cibertec.veterinaria.dto.AuthResponse;
+import com.cibertec.veterinaria.dto.UsuarioInfoDTO;
 import com.cibertec.veterinaria.dto.UsuarioRegisterDTO;
 import com.cibertec.veterinaria.entity.enums.TipoGenero;
 import com.cibertec.veterinaria.security.AuthService;
@@ -36,12 +37,8 @@ public class AuthController {
     }
 
     @PostMapping("/registrar")
-    public ResponseEntity<?> registrar(@Valid @RequestBody UsuarioRegisterDTO request) {
-        try {
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(authService.registrarNuevoUsuario(request.getIdToken(), request));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error en registro: " + e.getMessage());
-        }
+    public ResponseEntity<UsuarioInfoDTO> registrar(@Valid @RequestBody UsuarioRegisterDTO request) throws Exception {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(authService.registrarNuevoUsuario(request.getIdToken(), request));
     }
 }

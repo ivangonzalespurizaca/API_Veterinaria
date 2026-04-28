@@ -56,6 +56,10 @@ public class AuthService {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
         String uid = decodedToken.getUid();
 
+        if (usuarioRepository.existsByDni(extraData.getDni())) {
+            throw new RuntimeException("El DNI " + extraData.getDni() + " ya se encuentra registrado.");
+        }
+
         // 2. IMPORTANTE: Buscamos si ya existe para ACTUALIZARLO, si no, creamos instancia
         Usuario usuario = usuarioRepository.findById(uid).orElse(new Usuario());
 
@@ -81,9 +85,13 @@ public class AuthService {
         //asignarRolAFirebase(uid, rolAsignado.name());
 
         // 6. Al usar save() sobre un objeto que ya tiene ID, JPA hará un UPDATE
-        Usuario usuarioGuardado = usuarioRepository.save(usuario);
-
-        return usuarioMapper.toUsuarioInfoDTO(usuarioGuardado);
+        try {
+            Usuario usuarioGuardado = usuarioRepository.save(usuario);
+            return usuarioMapper.toUsuarioInfoDTO(usuarioGuardado);
+        } catch (org.springframework.dao.DataIntegrityViolationException e) {
+            // Si falla por DNI duplicado a nivel de base de datos
+            throw new RuntimeException("Error de integridad: El DNI ya existe.");
+        }
     }
 
     public void asignarRolAFirebase(String uid, String rol) throws Exception {
