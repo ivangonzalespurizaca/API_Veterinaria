@@ -46,20 +46,20 @@ public class DatabaseLoader implements CommandLineRunner {
                 .idUsuario("pizlIsN80CVtBTX1asD0bFLwIg83")
                 .nombres("Carlos").apellidos("Perez")
                 .email("clinsantar@gmail.com").dni("22222222").celular("999985854")
-                .fotoUrl(DEFAULT_USER_IMAGE)
+                .fotoUrl("https://res.cloudinary.com/dfid8iuf3/image/upload/v1771633471/zcosp3j9rts5ha20cynm.jpg")
                 .rol(TipoRol.ADMINISTRADOR).genero(TipoGenero.MASCULINO).build();
 
         Usuario userVet = Usuario.builder()
                 .idUsuario("4QJvg14NAEg6jNqoPL75cLBd2hf1")
                 .nombres("Oscar").apellidos("Gonzales Purizaca")
                 .email("ivangonzalespurizaca@gmail.com").dni("71769112").celular("955197741")
-                .fotoUrl(DEFAULT_USER_IMAGE)
+                .fotoUrl("https://res.cloudinary.com/dfid8iuf3/image/upload/v1775796668/qqbxl9wiwwyqbnzucxxv.webp")
                 .rol(TipoRol.VETERINARIO).genero(TipoGenero.MASCULINO).build();
 
         Usuario cliente = Usuario.builder()
                 .idUsuario("6JUWCOXMeJb4Y8dqAi8sM8Gazkr2")
                 .nombres("Jhon").apellidos("Ramos")
-                .email("jhonramos3456@gmail.com").dni("33333333").celular("987654321")
+                .email("https://res.cloudinary.com/dfid8iuf3/image/upload/v1771788276/napprliapuxtwmchwek4.jpg").dni("33333333").celular("987654321")
                 .fotoUrl(DEFAULT_USER_IMAGE)
                 .rol(TipoRol.CLIENTE).genero(TipoGenero.MASCULINO).build();
 
@@ -81,56 +81,56 @@ public class DatabaseLoader implements CommandLineRunner {
                 .cliente(cliente).nombreMascota("Firulais")
                 .especie(TipoEspecie.CANINO).raza("Golden Retriever")
                 .sexo(TipoSexoMascota.MACHO).fechaNacimiento(LocalDate.of(2021, 5, 10))
-                .fotoUrl("https://res.cloudinary.com/dfid8iuf3/image/upload/q_auto/f_auto/v1775845460/huella_sltxjt.png")
+                .fotoUrl("https://res.cloudinary.com/dfid8iuf3/image/upload/v1771804465/bho5nkmx7u73dpvlgvrr.jpg")
                 .pesoActual(new BigDecimal("25.50")).build();
 
         Mascota michi = Mascota.builder()
                 .cliente(cliente).nombreMascota("Michi")
                 .especie(TipoEspecie.FELINO).raza("Siamés")
                 .sexo(TipoSexoMascota.HEMBRA).fechaNacimiento(LocalDate.of(2022, 1, 15))
-                .fotoUrl("https://res.cloudinary.com/dfid8iuf3/image/upload/q_auto/f_auto/v1775845460/huella_sltxjt.png")
+                .fotoUrl("https://res.cloudinary.com/dfid8iuf3/image/upload/v1771810706/ifeb5m517jofphjahnxy.jpg")
                 .pesoActual(new BigDecimal("4.20")).build();
 
         Mascota luna = Mascota.builder()
                 .cliente(cliente).nombreMascota("Luna")
                 .especie(TipoEspecie.CANINO).raza("Beagle")
                 .sexo(TipoSexoMascota.HEMBRA).fechaNacimiento(LocalDate.of(2020, 8, 20))
-                .fotoUrl("https://res.cloudinary.com/dfid8iuf3/image/upload/q_auto/f_auto/v1775845460/huella_sltxjt.png")
+                .fotoUrl("https://res.cloudinary.com/dfid8iuf3/image/upload/v1777487085/Beagle-1_g7rnpp.webp")
                 .pesoActual(new BigDecimal("12.30")).build();
 
         Mascota simba = Mascota.builder()
                 .cliente(cliente).nombreMascota("Simba")
                 .especie(TipoEspecie.FELINO).raza("Persa")
                 .sexo(TipoSexoMascota.MACHO).fechaNacimiento(LocalDate.of(2019, 11, 05))
-                .fotoUrl("https://res.cloudinary.com/dfid8iuf3/image/upload/q_auto/f_auto/v1775845460/huella_sltxjt.png")
+                .fotoUrl("https://res.cloudinary.com/dfid8iuf3/image/upload/v1777487144/persa_wynms2.jpg")
                 .pesoActual(new BigDecimal("5.10")).build();
 
         Mascota rocky = Mascota.builder()
                 .cliente(cliente).nombreMascota("Rocky")
                 .especie(TipoEspecie.CANINO).raza("Bulldog Francés")
                 .sexo(TipoSexoMascota.MACHO).fechaNacimiento(LocalDate.of(2022, 6, 12))
-                .fotoUrl("https://res.cloudinary.com/dfid8iuf3/image/upload/q_auto/f_auto/v1775845460/huella_sltxjt.png")
+                .fotoUrl("https://res.cloudinary.com/dfid8iuf3/image/upload/v1777487200/bulldog_frances_rk2lqn.jpg")
                 .pesoActual(new BigDecimal("10.80")).build();
 
         Mascota nala = Mascota.builder()
                 .cliente(cliente).nombreMascota("Nala")
                 .especie(TipoEspecie.FELINO).raza("Bengala")
                 .sexo(TipoSexoMascota.HEMBRA).fechaNacimiento(LocalDate.of(2021, 3, 25))
-                .fotoUrl("https://res.cloudinary.com/dfid8iuf3/image/upload/q_auto/f_auto/v1775845460/huella_sltxjt.png")
+                .fotoUrl("https://res.cloudinary.com/dfid8iuf3/image/upload/v1777487266/gatobeng_kdcoro.webp")
                 .pesoActual(new BigDecimal("4.50")).build();
 
         Mascota tobi = Mascota.builder()
                 .cliente(cliente).nombreMascota("Tobi")
-                .especie(TipoEspecie.CANINO).raza("Poodle")
+                .especie(TipoEspecie.CANINO).raza("Mestizo")
                 .sexo(TipoSexoMascota.MACHO).fechaNacimiento(LocalDate.of(2018, 12, 30))
-                .fotoUrl("https://res.cloudinary.com/dfid8iuf3/image/upload/q_auto/f_auto/v1775845460/huella_sltxjt.png")
+                .fotoUrl("https://res.cloudinary.com/dfid8iuf3/image/upload/v1772032365/ldomg9lnu0c18bo1der7.jpg")
                 .pesoActual(new BigDecimal("7.20")).build();
 
         Mascota mika = Mascota.builder()
                 .cliente(cliente).nombreMascota("Mika")
                 .especie(TipoEspecie.CANINO).raza("Siberian Husky")
                 .sexo(TipoSexoMascota.HEMBRA).fechaNacimiento(LocalDate.of(2023, 2, 14))
-                .fotoUrl("https://res.cloudinary.com/dfid8iuf3/image/upload/q_auto/f_auto/v1775845460/huella_sltxjt.png")
+                .fotoUrl("https://res.cloudinary.com/dfid8iuf3/image/upload/v1777487367/Siberian_Husky_-_Mika_smwnwi.jpg")
                 .pesoActual(new BigDecimal("18.40")).build();
 
 
