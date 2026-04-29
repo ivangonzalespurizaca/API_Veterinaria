@@ -102,6 +102,11 @@ public class VeterinarioServiceImpl implements VeterinarioService {
     @Override
     @Transactional
     public VeterinarioInfoDTO actualizarDatosProfesionales(Long id, VeterinarioUpdateDTO dto) {
+
+        if (veterinarioRepository.existsByNumColegiatura(dto.getNumColegiatura())) {
+            throw new RuntimeException("El número de colegiatura CMVP ya está registrado.");
+        }
+
         Veterinario veterinario = veterinarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Veterinario no encontrado"));
 
