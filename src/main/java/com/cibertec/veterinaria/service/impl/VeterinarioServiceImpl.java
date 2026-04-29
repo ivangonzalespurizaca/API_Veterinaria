@@ -102,14 +102,20 @@ public class VeterinarioServiceImpl implements VeterinarioService {
     @Override
     @Transactional
     public VeterinarioInfoDTO actualizarDatosProfesionales(Long id, VeterinarioUpdateDTO dto) {
-
-        if (veterinarioRepository.existsByNumColegiatura(dto.getNumColegiatura())) {
-            throw new RuntimeException("El número de colegiatura CMVP ya está registrado.");
-        }
-
+        // 1. Buscamos primero al veterinario que queremos editar
         Veterinario veterinario = veterinarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Veterinario no encontrado"));
 
+        // 2. VALIDACIÓN CORREGIDA:
+        // Solo validamos si la colegiatura que viene en el DTO es DIFERENTE a la que ya tiene el veterinario
+        if (!veterinario.getNumColegiatura().equals(dto.getNumColegiatura())) {
+            // Si es diferente, verificamos que ningún OTRO veterinario la esté usando
+            if (veterinarioRepository.existsByNumColegiatura(dto.getNumColegiatura())) {
+                throw new RuntimeException("El número de colegiatura CMVP ya pertenece a otro profesional.");
+            }
+        }
+
+        // 3. Si pasó la validación, actualizamos
         veterinario.setNumColegiatura(dto.getNumColegiatura());
         veterinario.setEspecialidad(dto.getEspecialidad());
 
